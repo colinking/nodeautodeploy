@@ -15,7 +15,7 @@
     "url": "git+https://github.com/colinking/nodeautodeploy.git"
   },
   "author": "Colin King",
-  "license": "GPL",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/colinking/nodeautodeploy/issues"
   },
