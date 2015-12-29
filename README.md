@@ -20,11 +20,11 @@ server {
 }
 ```
 2. Add a webhook for push events to your GitHub repository by going to Settings > Webhooks & Services > Add Webhook. 
-- Payload URL: Whatever you set as the URL above in your NGINX config (ex. "deploy.colinking.co"). 
-- Content Type: application/json
-- Secret: Set this to a random, high-entropy string. Save this for later, as it will be used to identify if a POST request to the above URL is from GitHub.
-- Events: Push events
-- Active: Yes
+	- Payload URL: Whatever you set as the URL above in your NGINX config (ex. "deploy.colinking.co"). 
+	- Content Type: application/json
+	- Secret: Set this to a random, high-entropy string. Save this for later, as it will be used to identify if a POST request to the above URL is from GitHub.
+	- Events: Push events
+	- Active: Yes
 3. Clone this repo to your server.
 ```
 git clone https://github.com/colinking/nodeautodeploy.git autodeploy
