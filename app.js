@@ -69,11 +69,19 @@ app.post('/', function(req, res) {
 									if (err) res.status(500).send("An error occurred while fetching the live git branch: " + err);
 									live_branch = live_branch.trim();
 									if (live_branch == branch) {
-										// Stop the pm2 for this repo, pull new code, start pm2 
-										exec('pm2 stop ' + branch_data.pm2_id + ' && git pull && npm install; pm2 start ' + branch_data.pm2_id, function(err) {
-											if(err) res.status(500).send("An error occurred while reloading the website: " + err);
-											console.log("Successfully updated code for repo: " + repo_name + " on branch: " + branch);
-											res.end();
+										// Verify that pm2 is running for this server
+										exec('pm2 describe ' + branch_data.pm2_id + ' | grep -E "status.*online" > /dev/null; echo $?', function(err, output) {
+											if (err) res.status(500).send('An error occurred while attempting to determine if pm2 was running: ' + err);
+											if(output == "0\n") {
+												// Stop the pm2 for this repo, pull new code, start pm2 
+												exec('pm2 stop ' + branch_data.pm2_id + ' && git pull && npm install; pm2 start ' + branch_data.pm2_id, function(err) {
+													if(err) res.status(500).send("An error occurred while reloading the website: " + err);
+													console.log("Successfully updated code for repo: " + repo_name + " on branch: " + branch);
+													res.end();
+												});	
+											} else {
+												res.status(500).send('PM2 is not running for the repo (' + repo_name + ') at the given PM2 id (' + branch_data.pm2_id + ')');
+											}
 										});
 									} else {
 										res.status(500).send('Live branch (' + live_branch + ') in repository (' + full_path + ') does not match branch in commit (' + branch + ')');
