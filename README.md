@@ -7,7 +7,7 @@ This application can automatically update Node web servers from GitHub by listen
 	```
 	server {
 	  listen 80;
-	  server_name deploy.<DOMAINNAME>.com; // Replace with your domain
+	  server_name deploy.<DOMAINNAME>; // Replace with your domain (ex. deploy.colinking.co)
 	  
 	    location / {
 	      proxy_pass http://127.0.0.1:3500; // Port 3500 is the default port used for this project 
@@ -30,6 +30,7 @@ This application can automatically update Node web servers from GitHub by listen
 	```
 	git clone https://github.com/colinking/nodeautodeploy.git autodeploy
 	cd autodeploy
+	npm install
 	```
 4. Store your secret Github token in your server's environment.
 
@@ -53,5 +54,5 @@ This application can automatically update Node web servers from GitHub by listen
 6. Run the Express app
 
 	```
-	pm2 start app.js --name deploy
+	pm2 start ~/autodeploy/app.js --name deploy
 	```
